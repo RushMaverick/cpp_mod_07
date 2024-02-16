@@ -1,39 +1,59 @@
-#ifndef ARRAY_TPP
-#define ARRAY_TPP
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Array.tpp                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rrask <rrask@student.hive.fi>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/12 10:25:24 by rrask             #+#    #+#             */
+/*   Updated: 2024/02/12 10:26:13 by rrask            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "Array.hpp"
 
 template <typename T>
-void printVariable(const T& var) {
-	std::cout << var << std::endl;
+Array<T>::Array() : _data(NULL), _size(0) {}
+
+template <typename T>
+Array<T>::Array(unsigned int n) : _data(new T[n]), _size(n) {}
+
+template <typename T>
+Array<T>::Array(Array const &other) : _data(NULL), _size(0)
+{
+	*this = other;
 }
 
 template <typename T>
-size_t Array<T>::size(){
-	std::cout << sizeof() << std::endl
-};
-
-template <typename T>
-Array<T>::Array() : _size(0), _array(){
-
-};
-
-template <typename T>
-Array<T>::Array(const Array &other){
-
-};
-
-//implement operator= as well as a operator[]
-
-template <typename T>
-Array<T>::~Array(){
-	delete _array[];
-};
-
-template <typename T>
-Array<T>::Array(unsigned int n) : _size(n), _array(new T[_size]){
-	for (int i = 0; i < _size; ++i)
-		_array[i] = T;
+Array<T>::~Array()
+{
+	delete[] _data;
 }
 
-#endif
+template <typename T>
+Array<T> &Array<T>::operator=(Array const &other)
+{
+	if (this != &other)
+	{
+		delete[] _data;
+		_size = other._size;
+		_data = new T[_size];
+		for (unsigned int i = 0; i < _size; i++)
+			_data[i] = other._data[i];
+	}
+	return (*this);
+}
+
+template <typename T>
+T &Array<T>::operator[](unsigned int i) const
+{
+	if (i >= _size)
+		throw Array::CannotAccess();
+	return (_data[i]);
+}
+
+template <typename T>
+const char *Array<T>::CannotAccess::what(void) const throw()
+{
+	return ("Can't touch that element!");
+}

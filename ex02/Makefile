@@ -10,7 +10,7 @@ FLAGS    := -Wall -Wextra -Werror
 #                                 PROGRAM'S SRCS                               #
 ################################################################################
 
-SRCS        =      main.cpp Array.tpp\
+SRCS        =      main.cpp\
                           
 OBJS        := ${SRCS:.cpp=.o}
 
